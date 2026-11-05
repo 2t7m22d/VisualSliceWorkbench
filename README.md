@@ -6,5 +6,7 @@
 
 ## .bfslice文件
 使用plot_auto_bfslice.f90文件切片即可得到，使用方法与此前的plot文件一致   
-``gfortran plot_auto_bfslice.f90 -o [name]``   
+```
+gfortran plot_auto_bfslice.f90 -o [name]
+```   
 编译使用即可   
