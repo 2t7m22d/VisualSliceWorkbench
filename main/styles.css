@@ -961,11 +961,10 @@ main {
 .spatial-stage { position: relative; }
 #spatial-paused { text-align: center; color: #617584; font-size: 17px; }
 #spatial-paused span { font-size: 12px; }
-#toggle3d[aria-pressed=false] { color: #147c8a; border-color: #147c8a; }
 
-/* A pressed layer button is a persistent follow mode, not a one-shot action. */
-#one[aria-pressed=true] { background: #0b5965; color: white; border-color: #07434d; }
-#one[aria-pressed=true]:hover { background: #07434d; }
+/* Toggle labels stay fixed; pressed means the named option is active. */
+.state-toggle[aria-pressed=true] { background: #0b5965; color: white; border-color: #07434d; }
+.state-toggle[aria-pressed=true]:hover { background: #07434d; }
 #layer-track.following { cursor: default; }
 
 /* Direct GPU/Canvas scene layers; no frame-by-frame GPU readback. */
@@ -985,7 +984,6 @@ main {
 .direction-controls { display:flex; gap:6px 12px; flex-wrap:wrap; align-items:center; flex:1; min-width:0; }
 .direction-controls button { font-size:11px; padding:3px 8px; }
 .direction-legend { flex:0 0 130px; width:130px!important; height:96px!important; border:0!important; background:transparent!important; }
-#toggle-heatmap[aria-pressed=false] { color:#147c8a; border-color:#147c8a; background:#edf8f8; }
 .plots>.panel:has(.render-options) { grid-template-rows:26px 54px minmax(0,1fr) 70px 32px; }
 .plots.direction-legends>.panel { grid-template-rows:26px 100px minmax(0,1fr) 70px 32px; }
 @media (max-width:420px) { .direction-controls { gap:5px; } .direction-controls select { max-width:112px; } }
@@ -1000,7 +998,6 @@ main {
 .export-actions button { border-radius:5px 0 0 5px; }
 .export-actions select { height:26px; max-width:142px; padding:0 5px; font-size:11px; border-left:0; border-radius:0 5px 5px 0; }
 #scale-notice { color:#a44424; font-size:11px; }
-#scale-bar-toggle[aria-pressed=true] { color:#0b5965; border-color:#147c8a; background:#edf8f8; }
 #scale-dialog { width:min(360px,calc(100vw - 36px)); padding:24px; border:1px solid #c8d9df; border-radius:14px; color:#273849; box-shadow:0 18px 70px #102f4250; }
 #scale-dialog::backdrop { background:#10293866; backdrop-filter:blur(3px); }
 #scale-dialog h2 { margin:0 0 18px; font-size:20px; }

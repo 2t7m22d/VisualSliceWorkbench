@@ -83,7 +83,7 @@
             </div>
             <div class="render-options color-options">
               <div class="direction-controls">
-                <button id="toggle-heatmap" type="button" value="on" aria-pressed="true" disabled>关闭热图渲染</button>
+                <button id="toggle-heatmap" class="state-toggle" type="button" value="on" aria-pressed="false" disabled>关闭热图渲染</button>
               </div>
               <canvas id="direction-wheel" class="direction-legend" width="260" height="192" role="img" aria-label="平面方向色环" title="箭头颜色表示当前切面内方向，与长度无关" hidden></canvas>
             </div>
@@ -97,7 +97,7 @@
             <div class="plot-footer">
               <div class="footer-note"><div id="sample" class="plot-status"></div><span id="scale-notice" role="status" hidden></span></div>
               <div class="footer-actions">
-                <button id="scale-bar-toggle" type="button" aria-pressed="false" disabled>设置比例尺</button>
+                <button id="scale-bar-toggle" class="state-toggle" type="button" aria-pressed="false" disabled>设置比例尺</button>
                 <div class="export-actions"><button id="save2">保存平面 PNG</button><select id="export-mode2" aria-label="平面PNG输出方式"><option value="standard">完整图片</option><option value="clean">保存无文字图片</option></select></div>
               </div>
             </div>
@@ -130,12 +130,12 @@
                   <button type="button" id="layer-start" role="slider" aria-label="三维起始层" aria-valuemin="1" aria-valuemax="1" aria-valuenow="1"></button>
                   <button type="button" id="layer-end" role="slider" aria-label="三维结束层" aria-valuemin="1" aria-valuemax="1" aria-valuenow="1"></button>
                 </div>
-                <div class="layer-actions"><button id="all">全部层</button> <button id="one" type="button" aria-pressed="false" title="让三维图持续跟随左图所在层">仅左图层</button></div>
+                <div class="layer-actions"><button id="all">全部层</button> <button id="one" class="state-toggle" type="button" aria-pressed="false" title="让三维图持续跟随左图所在层">仅左图层</button></div>
               </div>
             </fieldset>
             <div class="plot-footer spatial-footer">
               <p id="info" class="plot-status"></p>
-              <div class="footer-actions"><button id="toggle3d" type="button" aria-pressed="true">关闭3D渲染</button><button id="reset">重置视角</button><div class="export-actions"><button id="save3">保存三维 PNG</button><select id="export-mode3" aria-label="三维PNG输出方式"><option value="standard">完整图片</option><option value="clean">保存无文字图片</option></select></div></div>
+              <div class="footer-actions"><button id="toggle3d" class="state-toggle" type="button" aria-pressed="false">关闭3D渲染</button><button id="reset">重置视角</button><div class="export-actions"><button id="save3">保存三维 PNG</button><select id="export-mode3" aria-label="三维PNG输出方式"><option value="standard">完整图片</option><option value="clean">保存无文字图片</option></select></div></div>
             </div>
           </section>
         </div>

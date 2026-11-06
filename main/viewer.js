@@ -430,7 +430,6 @@ function drawScaleBar(g, layout) {
 }
 function syncScaleBar() {
   $('scale-bar-toggle').disabled = !cfg || exporting;
-  $('scale-bar-toggle').textContent = planarScaleBar ? '取消比例尺' : '设置比例尺';
   $('scale-bar-toggle').setAttribute('aria-pressed', String(!!planarScaleBar));
   $('export-mode2').options[0].textContent = planarScaleBar ? '图片与比例尺' : '完整图片';
   let problem = '';
@@ -1039,8 +1038,7 @@ function syncDirectionControls() {
   const wheel = cfg.planarColor === 'direction', sphere = cfg.spatialColor === 'direction' && cfg.mode !== 'voxels';
   $('planar-color').disabled = $('toggle-heatmap').disabled = false;
   $('spatial-color').disabled = cfg.mode === 'voxels';
-  $('toggle-heatmap').textContent = cfg.heatmap ? '关闭热图渲染' : '开启热图渲染';
-  $('toggle-heatmap').setAttribute('aria-pressed', String(cfg.heatmap));
+  $('toggle-heatmap').setAttribute('aria-pressed', String(!cfg.heatmap));
   $('direction-wheel').hidden = !wheel;
   $('direction-sphere').hidden = !sphere;
   $('plots').classList.toggle('direction-legends', wheel || sphere);
@@ -1307,8 +1305,7 @@ for (const [id, c] of [['save2', c2], ['save3', c3]]) $(id).onclick = async () =
 // Disable the entire 3D path, including geometry/volume preparation and export.
 // Dataset and controls stay live so re-enabling uses the latest shared region.
 function sync3DRendering() {
-  $('toggle3d').textContent = render3DEnabled ? '关闭3D渲染' : '开启3D渲染';
-  $('toggle3d').setAttribute('aria-pressed', String(render3DEnabled));
+  $('toggle3d').setAttribute('aria-pressed', String(!render3DEnabled));
   $('spatial-paused').hidden = render3DEnabled;
   c3.hidden = !render3DEnabled;
   c3.dataset.rendering = String(render3DEnabled);
