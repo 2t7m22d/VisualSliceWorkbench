@@ -1,4 +1,4 @@
-# VisualSliceWorkbench
+# VisualSliceWorkspace
 
 ## 使用方法
 打开index.html即可使用，无需安装其它依赖   
