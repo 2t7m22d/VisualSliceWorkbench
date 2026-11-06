@@ -1,0 +1,163 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>切片工作台</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="tutorial.css?v=10steps-20261106">
+  </head>
+  <body>
+    <main>
+      <header>
+        <div>
+          <div class="tag">SLICE WORKSPACE</div>
+          <h1>切片工作台</h1>
+        </div>
+        <button id="start-tutorial" type="button">使用教程</button>
+      </header>
+      <label id="drop">将<strong>.bfslice或XY./XZ.</strong>文件拖入，自动绘图<br><span class="file-button">选择文件</span><span id="file-name" aria-live="polite">尚未选择文件</span><input id="file" class="file-input" aria-label="选择切片文件" type="file" accept=".bfslice,.dat,.txt,.csv"></label>
+      <section id="workspace" aria-label="绘图工作区">
+        <div id="status" role="status" hidden></div>
+        <fieldset id="controls" disabled>
+          <div class="control-grid">
+            <details class="control-group" open>
+              <summary>显示范围</summary>
+              <div class="group-body two-col xyz-ranges">
+                <label style="order:0"><span id="x-label">x 范围（格点）</span><span class="row"><input id="xmin" aria-label="x下限" type="number" step="any"><input id="xmax" aria-label="x上限" type="number" step="any"></span></label>
+                <label id="vertical-range"><span id="y-label">y 范围（格点）</span><span class="row"><input id="ymin" aria-label="y下限" type="number" step="any"><input id="ymax" aria-label="y上限" type="number" step="any"></span></label>
+                <label id="normal-range"><span id="normal-label">z 范围（格点）</span><span class="row"><input id="nmin" aria-label="z下限" type="number" step="any"><input id="nmax" aria-label="z上限" type="number" step="any"></span></label>
+                <div class="wide actions"><button id="full">恢复完整范围</button></div>
+              </div>
+            </details>
+            <details class="control-group" open>
+              <summary>颜色与色标</summary>
+              <div class="group-body two-col">
+                <label class="wide">配色<select id="palette"><option value="diverging">蓝—白—红（默认）</option><option value="rainbow">Rainbow · 彩虹</option><option value="viridis">Viridis · 紫—绿—黄</option><option value="inferno">Inferno · 黑—紫—黄</option><option value="gray">灰度 · 黑—白</option><option value="custom">自定义双色</option></select></label>
+                <div id="custom-colors" class="wide two-col" hidden>
+                  <label>低值颜色<input id="color-low" type="color" value="#2166ac"></label>
+                  <label>高值颜色<input id="color-high" type="color" value="#b2182b"></label>
+                </div>
+                <label>色标下限<input id="cmin" type="number" step="any" value="-1.1"></label>
+                <label>色标上限<input id="cmax" type="number" step="any" value="1.1"></label>
+                <div class="wide scalar-preview">
+                  <span id="quantity">z分量</span>
+                  <div class="scalar-preview-bar"><span id="lo">−1.1</span><div class="bar" id="colorbar" aria-label="当前配色色标"></div><span id="hi">1.1</span></div>
+                  <span id="clipping" class="muted"></span>
+                </div>
+                <div class="wide actions"><button id="autoColor">自动对称色标</button></div>
+              </div>
+            </details>
+            <details class="control-group" open>
+              <summary>箭头外观</summary>
+              <div class="group-body arrow-controls">
+                <label>左图箭头颜色<select id="planar-color"><option value="black">纯黑</option><option value="direction">平面方向</option></select></label>
+                <label>右图箭头颜色<select id="spatial-color"><option value="component">z分量 · 色标</option><option value="direction">空间方向</option></select></label>
+                <label class="wide direction-preset">方向配色 · 色环与色球<select id="direction-preset"><option value="rainbow">经典彩虹（原版）</option><option value="soft">柔和彩虹</option><option value="aurora">青紫橙环</option><option value="ember">蓝红金环</option></select></label>
+                <div class="arrow-numbers">
+                  <div>
+                    <div class="stride-title">箭头间隔（格；越小越密）</div>
+                    <div class="stride-inputs">
+                      <label>X<input id="stride-x" aria-label="X方向箭头间隔" type="number" min="1" step="1" value="4"></label>
+                      <label>Y<input id="stride-y" aria-label="Y方向箭头间隔" type="number" min="1" step="1" value="4"></label>
+                      <label>Z<input id="stride-z" aria-label="Z方向箭头间隔" type="number" min="1" step="1" value="2"></label>
+                    </div>
+                  </div>
+                  <label><span id="scale-label">箭头长度（格 / 单位场）</span><input id="scale" type="number" min="0" step="any" value="2.5"></label>
+                </div>
+                <label class="arrow-size"><span id="head-label">三维头部大小：1.00 倍</span><input id="head-size" aria-label="三维头部大小" type="range" min="0.25" max="2.5" step="0.05" value="1"></label>
+                <label class="arrow-size"><span id="shaft-label">三维柄部粗细：1.00 倍</span><input id="shaft-size" aria-label="三维柄部粗细" type="range" min="0.3" max="5" step="0.1" value="1"></label>
+              </div>
+            </details>
+          </div>
+        </fieldset>
+        <div class="legend">
+          <label id="field-control" hidden>显示物理量 <select id="field"></select></label>
+          <label class="export-settings">PNG DPI <input id="export-dpi" type="number" min="72" max="600" step="1" value="300" aria-label="PNG导出DPI" title="72–600 DPI；两图共用，仅影响导出。像素尺寸随输出方式和当前选区变化。"><span id="export-size" class="muted"></span></label>
+        </div>
+        <div class="plots" id="plots" aria-label="双图视图">
+          <section class="panel">
+            <div class="panel-heading">
+              <h2 id="planar-title">平面图 / XY</h2>
+              <label>左图切面<select id="left-view" disabled><option value="XY">XY 切面</option><option value="XZ">XZ 切面</option></select></label>
+            </div>
+            <div class="render-options color-options">
+              <div class="direction-controls">
+                <button id="toggle-heatmap" type="button" value="on" aria-pressed="true" disabled>关闭热图渲染</button>
+              </div>
+              <canvas id="direction-wheel" class="direction-legend" width="260" height="192" role="img" aria-label="平面方向色环" title="箭头颜色表示当前切面内方向，与长度无关" hidden></canvas>
+            </div>
+            <div class="plot-stage">
+              <canvas id="planar" width="720" height="650" role="img" aria-label="XY原始格点平面图"></canvas>
+            </div>
+            <fieldset id="plane-controls" class="under-plot" disabled>
+              <label class="plane-control" for="plane"><span id="plane-label">左图 XY 层</span><input id="plane" type="range" min="0" max="0" step="1" value="0" aria-label="左图 XY 层"></label>
+              <div class="layer-actions"><button id="full-below" hidden>恢复完整范围</button></div>
+            </fieldset>
+            <div class="plot-footer">
+              <div class="footer-note"><div id="sample" class="plot-status"></div><span id="scale-notice" role="status" hidden></span></div>
+              <div class="footer-actions">
+                <button id="scale-bar-toggle" type="button" aria-pressed="false" disabled>设置比例尺</button>
+                <div class="export-actions"><button id="save2">保存平面 PNG</button><select id="export-mode2" aria-label="平面PNG输出方式"><option value="standard">完整图片</option><option value="clean">保存无文字图片</option></select></div>
+              </div>
+            </div>
+          </section>
+          <section class="panel">
+            <div class="panel-heading">
+              <h2>三维视图</h2>
+              <label id="voxel-control" hidden>体素分量<select id="voxel-component" aria-label="体素着色分量"><option value="0">px</option><option value="1">py</option><option value="2" selected>pz</option></select></label>
+              <label>三维模式<select id="mode3" disabled><option value="arrows">体内箭头</option><option id="box-mode-option" value="box">边界长方体</option><option value="voxels">体素模式（实验性）</option></select></label>
+            </div>
+            <div class="render-options color-options">
+              <div class="direction-controls">
+              <label>渲染<select id="renderer" title="适用于体内箭头与边界长方体模式" disabled><option value="auto">自动（优先GPU）</option><option value="gpu">GPU加速</option><option value="cpu">兼容绘制</option></select></label>
+              <label>交互<select id="motion-quality" disabled title="交互优先：拖动时临时简化预览，停止后恢复完整密度；PNG始终按设定密度输出。"><option value="adaptive">交互优先</option><option value="full">始终完整密度</option></select></label>
+              <span id="render-status" aria-live="polite"></span>
+              </div>
+              <canvas id="direction-sphere" class="direction-legend" width="260" height="192" role="img" aria-label="空间方向色球，与三维视图同步旋转" title="赤道表示XY方位；向+z过渡为橙金色，向−z过渡为蓝紫色。随视角旋转查看另一半球。" hidden></canvas>
+            </div>
+            <div class="plot-stage spatial-stage">
+              <canvas id="spatial-gpu" class="scene-layer" width="720" height="650" aria-hidden="true" hidden></canvas>
+              <canvas id="spatial-cpu" class="scene-layer" width="720" height="650" aria-hidden="true" hidden></canvas>
+              <div id="spatial-paused" hidden>3D渲染已关闭<br><span>开启后按当前范围和设置重新绘制</span></div>
+              <canvas id="spatial" width="720" height="650" role="img" aria-label="多层三维矢量图"></canvas>
+            </div>
+            <fieldset id="volume-controls" class="under-plot" disabled>
+              <div class="layer-control">
+                <span id="layer-range-label">三维连续层范围</span>
+                <div id="layer-track">
+                  <div id="layer-fill"></div>
+                  <button type="button" id="layer-start" role="slider" aria-label="三维起始层" aria-valuemin="1" aria-valuemax="1" aria-valuenow="1"></button>
+                  <button type="button" id="layer-end" role="slider" aria-label="三维结束层" aria-valuemin="1" aria-valuemax="1" aria-valuenow="1"></button>
+                </div>
+                <div class="layer-actions"><button id="all">全部层</button> <button id="one" type="button" aria-pressed="false" title="让三维图持续跟随左图所在层">仅左图层</button></div>
+              </div>
+            </fieldset>
+            <div class="plot-footer spatial-footer">
+              <p id="info" class="plot-status"></p>
+              <div class="footer-actions"><button id="toggle3d" type="button" aria-pressed="true">关闭3D渲染</button><button id="reset">重置视角</button><div class="export-actions"><button id="save3">保存三维 PNG</button><select id="export-mode3" aria-label="三维PNG输出方式"><option value="standard">完整图片</option><option value="clean">保存无文字图片</option></select></div></div>
+            </div>
+          </section>
+        </div>
+      </section>
+    </main>
+    <dialog id="scale-dialog" aria-labelledby="scale-dialog-title">
+      <form id="scale-form" novalidate>
+        <h2 id="scale-dialog-title">设置比例尺</h2>
+        <label for="scale-nm-grid">一个格点等于多少 nm<input id="scale-nm-grid" type="number" step="any" min="0" inputmode="decimal" required></label>
+        <label for="scale-length-nm">比例尺长度（nm）<input id="scale-length-nm" type="number" step="any" min="0" inputmode="decimal" required></label>
+        <p id="scale-error" role="alert" hidden></p>
+        <div class="dialog-actions"><button id="scale-cancel" type="button">取消</button><button type="submit" class="primary">确定</button></div>
+      </form>
+    </dialog>
+    <script src="palettes.js"></script>
+    <script src="voxels.js"></script>
+    <script src="directions.js"></script>
+    <script src="arrows.js"></script>
+    <script src="viewer.js"></script>
+    <script src="spatial.js"></script>
+    <script src="history.js"></script>
+    <script src="tutorial-data.js"></script>
+    <script id="tutorial-script" src="tutorial.js?v=10steps-20261106"></script>
+  </body>
+</html>

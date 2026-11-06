@@ -1,0 +1,109 @@
+.tour {
+  position: fixed;
+  inset: 0;
+  z-index: 10000;
+  background: #eef3f6;
+}
+
+.tour iframe {
+  border: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: auto;
+}
+
+.tour-focus {
+  position: absolute;
+  border: 3px solid #14afbb;
+  border-radius: 9px;
+  box-shadow: 0 0 0 9999px #102b3b70;
+  pointer-events: none;
+  transition: all .22s;
+}
+
+.tour-card {
+  position: absolute;
+  width: 330px;
+  max-width: calc(100vw - 24px);
+  padding: 18px;
+  background: white;
+  border: 1px solid #b7d5df;
+  border-radius: 14px;
+  box-shadow: 0 12px 40px #142c4340;
+  color: #183342;
+  font: 14px/1.6 system-ui;
+}
+
+.tour-card h2 {
+  font-size: 18px;
+  margin: 6px 0;
+}
+
+.tour-text {
+  margin: 8px 0;
+}
+
+.tour-gestures {
+  display: grid;
+  gap: 10px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.tour-gestures li {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.tour-gestures svg {
+  flex: 0 0 24px;
+  width: 24px;
+  height: 32px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.5;
+  color: #147c8a;
+}
+
+.tour-badge {
+  padding-right: 85px;
+  font-size: 11px;
+  color: #147c8a;
+}
+
+.tour-actions {
+  display: flex;
+  gap: 7px;
+  flex-wrap: wrap;
+  margin-top: 12px;
+}
+
+.tour-actions button {
+  font: 12px system-ui;
+  padding: 7px 10px;
+  cursor: pointer;
+}
+
+.tour-actions .primary {
+  background: #147c8a;
+  color: white;
+}
+
+.tour-close {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  font-size: 12px;
+  padding: 4px 6px;
+  z-index: 3;
+  background: white;
+}
+
+@media (prefers-reduced-motion:reduce) {
+  .tour-focus {
+    transition: none;
+  }
+}
+
